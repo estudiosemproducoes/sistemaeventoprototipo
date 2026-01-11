@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login - Sistema de Eventos</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    
+    body {
+      background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    
+    .login-container {
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+      width: 100%;
+      max-width: 420px;
+      overflow: hidden;
+    }
+    
+    .login-header {
+      background: #0047bb;
+      color: white;
+      padding: 25px 30px;
+      text-align: center;
+    }
+    
+    .login-header h1 {
+      font-size: 24px;
+      font-weight: 600;
+      margin-bottom: 5px;
+    }
+    
+    .login-header p {
+      font-size: 14px;
+      opacity: 0.9;
+    }
+    
+    .login-body {
+      padding: 30px;
+    }
+    
+    .form-group {
+      margin-bottom: 20px;
+    }
+    
+    .form-group label {
+      display: block;
+      color: #333;
+      font-weight: 600;
+      margin-bottom: 8px;
+      font-size: 14px;
+    }
+    
+    .form-control {
+      width: 100%;
+      padding: 12px 15px;
+      border: 2px solid #ddd;
+      border-radius: 4px;
+      font-size: 15px;
+      transition: border 0.3s;
+    }
+    
+    .form-control:focus {
+      outline: none;
+      border-color: #0047bb;
+      box-shadow: 0 0 0 2px rgba(0, 71, 187, 0.1);
+    }
+    
+    .btn-login {
+      width: 100%;
+      padding: 14px;
+      background: #0047bb;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.3s;
+      margin-top: 10px;
+    }
+    
+    .btn-login:hover {
+      background: #003399;
+    }
+    
+    .btn-login:active {
+      transform: translateY(1px);
+    }
+    
+    .error-message {
+      background: #f8d7da;
+      color: #721c24;
+      padding: 10px;
+      border-radius: 4px;
+      margin-top: 15px;
+      font-size: 14px;
+      display: none;
+      border: 1px solid #f5c6cb;
+    }
+    
+    .login-footer {
+      text-align: center;
+      padding: 15px 30px;
+      background: #f8f9fa;
+      border-top: 1px solid #eee;
+      font-size: 12px;
+      color: #666;
+    }
+    
+    .logo {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    
+    .logo img {
+      height: 40px;
+    }
+    
+    /* Estilo TOTVS */
+    .totvs-theme .login-header {
+      background: linear-gradient(135deg, #0047bb 0%, #003399 100%);
+    }
+    
+    .totvs-theme .btn-login {
+      background: linear-gradient(135deg, #0047bb 0%, #003399 100%);
+    }
+    
+    .totvs-theme .btn-login:hover {
+      background: linear-gradient(135deg, #003399 0%, #002266 100%);
+    }
+    
+    /* Responsivo */
+    @media (max-width: 480px) {
+      .login-container {
+        margin: 0;
+        border-radius: 0;
+      }
+      
+      body {
+        padding: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="login-container totvs-theme">
+    <div class="login-header">
+      <div class="logo">
+        <!-- Se tiver logo, coloque aqui -->
+        <!-- <img src="logo.png" alt="Logo"> -->
+        <h1>🎪 Sistema de Eventos</h1>
+      </div>
+      <p>Acesso ao sistema</p>
+    </div>
+    
+    <div class="login-body">
+      <form id="loginForm">
+        <div class="form-group">
+          <label for="username">Usuário</label>
+          <input 
+            type="text" 
+            id="username" 
+            class="form-control" 
+            placeholder="Digite seu usuário"
+            required
+            autocomplete="username"
+          >
+        </div>
+        
+        <div class="form-group">
+          <label for="password">Senha</label>
+          <input 
+            type="password" 
+            id="password" 
+            class="form-control" 
+            placeholder="Digite sua senha"
+            required
+            autocomplete="current-password"
+          >
+        </div>
+        
+        <button type="submit" class="btn-login">
+          ENTRAR
+        </button>
+        
+        <div id="errorMsg" class="error-message">
+          Usuário ou senha incorretos
+        </div>
+      </form>
+    </div>
+    
+    <div class="login-footer">
+      <p>© 2026 Sistema de Eventos. Todos os direitos reservados.</p>
+      <p style="margin-top: 5px; font-size: 11px;">Versão 1.0.0</p>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById('loginForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const username = document.getElementById('username').value.trim();
+      const password = document.getElementById('password').value.trim();
+      
+      // Credenciais padrão (em produção, isso deve ser validado no servidor)
+      if ((username === 'admin' && password === 'admin123') || 
+          (username === 'demo' && password === 'demo123')) {
+        
+        localStorage.setItem('loggedIn', 'true');
+        localStorage.setItem('currentUser', username);
+        
+        // Adiciona pequeno delay para feedback visual
+        const btn = document.querySelector('.btn-login');
+        btn.textContent = 'ENTRANDO...';
+        btn.disabled = true;
+        
+        setTimeout(() => {
+          window.location.href = 'index.html';
+        }, 500);
+        
+      } else {
+        const err = document.getElementById('errorMsg');
+        err.textContent = 'Usuário ou senha incorretos. Tente: admin/admin123 ou demo/demo123';
+        err.style.display = 'block';
+        
+        // Adiciona efeito de shake no formulário
+        document.querySelector('.login-body').style.animation = 'shake 0.5s';
+        setTimeout(() => {
+          document.querySelector('.login-body').style.animation = '';
+        }, 500);
+      }
+    });
+    
+    // Foco automático no campo de usuário
+    document.addEventListener('DOMContentLoaded', function() {
+      document.getElementById('username').focus();
+    });
+    
+    // Adiciona estilo de shake
+    const style = document.createElement('style');
+    style.textContent = `
+      @keyframes shake {
+        0%, 100% { transform: translateX(0); }
+        10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+        20%, 40%, 60%, 80% { transform: translateX(5px); }
+      }
+    `;
+    document.head.appendChild(style);
+    
+    // Permite login com Enter
+    document.getElementById('password').addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') {
+        document.getElementById('loginForm').dispatchEvent(new Event('submit'));
+      }
+    });
+    // Força rolagem para o topo quando a página carrega
+window.addEventListener('load', function() {
+  window.scrollTo(0, 0);
+  
+  // Também força quando há navegação hash
+  if (window.location.hash) {
+    setTimeout(() => {
+      window.scrollTo(0, 0);
+    }, 100);
+  }
+});
+
+// Adiciona listener para navegação via botões
+document.addEventListener('click', function(e) {
+  if (e.target.closest('[data-page]')) {
+    // Pequeno delay para garantir que o DOM foi atualizado
+    setTimeout(() => {
+      window.scrollTo(0, 0);
+      document.querySelector('.main').scrollTop = 0;
+    }, 50);
+  }
+});
+  </script>
+</body>
+</html>
